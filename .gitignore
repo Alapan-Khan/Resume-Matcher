@@ -1,0 +1,19 @@
+# Personal files
+Resume.pdf
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Environment
+.env
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
