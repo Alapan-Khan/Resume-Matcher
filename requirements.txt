@@ -3,7 +3,4 @@ sentence-transformers==2.7.0
 scikit-learn
 keybert
 pymupdf
-spacy==3.7.4
-https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
-torch==2.0.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu
-torchvision==0.15.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+nltk

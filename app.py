@@ -3,7 +3,7 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from keybert import KeyBERT
 import re
-import spacy
+import nltk
 import fitz
 import tempfile
 import os
@@ -291,14 +291,15 @@ html, body, [class*="css"] {
 """, unsafe_allow_html=True)
 
 # ── Load Models ────────────────────────────────────────────────
+nltk.download('averaged_perceptron_tagger_eng', quiet=True)
+nltk.download('punkt_tab', quiet=True)
 @st.cache_resource
 def load_models():
     model = SentenceTransformer('all-MiniLM-L6-v2')
     kw_model = KeyBERT(model=model)
-    nlp_spacy = spacy.load('en_core_web_sm')
-    return model, kw_model, nlp_spacy
+    return model, kw_model
 
-model, kw_model, nlp_spacy = load_models()
+model, kw_model = load_models()
 
 # ── Helper Functions ───────────────────────────────────────────
 def read_pdf(uploaded_file):
@@ -314,9 +315,11 @@ def read_pdf(uploaded_file):
     return text.strip()
 
 def is_skill_word(word):
-    doc = nlp_spacy(word)
-    for token in doc:
-        if token.pos_ in ('NOUN', 'PROPN'):
+    tokens = nltk.word_tokenize(word)
+    tags = nltk.pos_tag(tokens)
+    for token, tag in tags:
+        # NN=noun, NNS=plural noun, NNP=proper noun, NNPS=plural proper noun
+        if tag in ('NN', 'NNS', 'NNP', 'NNPS'):
             return True
     return False
 
